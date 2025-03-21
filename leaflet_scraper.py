@@ -1,5 +1,6 @@
 import requests
 import json
+import re
 from bs4 import BeautifulSoup
 from datetime import datetime
 from dataclasses import dataclass
@@ -56,10 +57,18 @@ class LeafletScraper():
 
             # Spracovanie dátumov
             date_text = date_element[0].text.strip()
+
+            # Regex na ziskanie dátumov z 'date_text
+            dates = re.findall(r"\d{1,2}\.\d{1,2}\.\d{2,4}", date_text)
+
             try:
-                valid_from, valid_to = date_text.split(" - ")
-                valid_from = self.format_date(valid_from)
-                valid_to = self.format_date(valid_to)
+                # Ak sa v 'date_text' nachádza 'von'
+                if "von" in date_text and len(dates) == 1:
+                    valid_from = self.format_date(dates[0])
+                    valid_to = None
+                else:
+                    valid_from = self.format_date(dates[0])
+                    valid_to = self.format_date(dates[1])
             except ValueError:
                 continue
             
