@@ -14,16 +14,16 @@ class Leaflet:
     valid_to: str
     parsed_time: str
 
-class LeafletScraper:
-    TARGET_URL = "https://www.prospektmaschine.de/hypermarkte/"
+class LeafletScraper():
 
-    def __init__(self):
+    def __init__(self, url="https://www.prospektmaschine.de/hypermarkte/"):
         # Pre viac performant requests z URL (zachová sa TCP connection)
         self.session = requests.Session()
+        self.url = url
 
     def fetch_page(self):
         """Získa HTML obsah stránky."""
-        response = self.session.get(self.TARGET_URL)
+        response = self.session.get(self.url)
         response.raise_for_status()
         return response.text
 
