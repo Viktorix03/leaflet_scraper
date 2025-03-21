@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from dataclasses import dataclass
 
-# Základné štruktúra pre leták
+# Základná štruktúra pre leták
 @dataclass
 class Leaflet:
     title: str
